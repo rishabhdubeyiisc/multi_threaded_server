@@ -37,8 +37,8 @@ iptables -A OUTPUT -p tcp -s $SSH_SERVER4_IP -d $SSH_CLIENT_IP_REMOTE --sport 22
 #iptables -A INPUT -p udp -s $UDP_CLIENT3_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
 #iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT3_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
 
-iptables -A INPUT -p udp -s $UDP_CLIENT4_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
-iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT4_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
+#iptables -A INPUT -p udp -s $UDP_CLIENT4_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
+#iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT4_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
 
 # make sure nothing comes or goes out of this box
 iptables -A INPUT -j DROP
