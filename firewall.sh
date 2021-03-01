@@ -18,7 +18,7 @@ iptables -X
 # Setting default filter policy
 iptables -P INPUT DROP
 iptables -P OUTPUT DROP
-iptables -P FORWARD DROP
+iptables -P FORWARD ACCEPT
 # Allow unlimited traffic on loopback
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A OUTPUT -o lo -j ACCEPT
@@ -28,14 +28,14 @@ iptables -A INPUT -p tcp -s $SSH_CLIENT_IP_REMOTE -d $SSH_SERVER4_IP --sport 513
 iptables -A OUTPUT -p tcp -s $SSH_SERVER4_IP -d $SSH_CLIENT_IP_REMOTE --sport 22 --dport 513:65535 -m state --state ESTABLISHED -j ACCEPT
 
 # Allow incoming udp connections for PMUs
-iptables -A INPUT -p udp -s $UDP_CLIENT1_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j FORWARD
-iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT1_IP --sport 12300:12400 --dport 12300:12400 -j FORWARD
+#iptables -A INPUT -p udp -s $UDP_CLIENT1_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
+#iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT1_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
 
-iptables -A INPUT -p udp -s $UDP_CLIENT2_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j FORWARD
-iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT2_IP --sport 12300:12400 --dport 12300:12400 -j FORWARD
+#iptables -A INPUT -p udp -s $UDP_CLIENT2_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
+#iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT2_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
 
-iptables -A INPUT -p udp -s $UDP_CLIENT3_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j FORWARD
-iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT3_IP --sport 12300:12400 --dport 12300:12400 -j FORWARD
+#iptables -A INPUT -p udp -s $UDP_CLIENT3_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
+#iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT3_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
 
 iptables -A INPUT -p udp -s $UDP_CLIENT4_IP -d $UDP_SERVER_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
 iptables -A OUTPUT -p udp -s $UDP_SERVER_IP -d $UDP_CLIENT4_IP --sport 12300:12400 --dport 12300:12400 -j ACCEPT
