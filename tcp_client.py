@@ -5,7 +5,7 @@ client_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
 message_to_send = "Hello from client"
 
-SERVER_IP = '127.0.0.1'
+SERVER_IP = '10.64.37.30'
 SERVER_PORT = 12345
 BUFFER_SIZE = 1024
 TRIALS_TO_DO = 10 
