@@ -3,7 +3,7 @@ import socket
 
 server_sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
-IP_SERVER_IS_BINDING = '127.0.0.1'
+IP_SERVER_IS_BINDING = '10.64.37.35'
 PORT_OPENING = 12345
 BUFFER_SIZE = 1024
 try:
