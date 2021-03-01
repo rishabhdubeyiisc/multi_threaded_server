@@ -10,7 +10,7 @@ client_sock = socket.socket( family = socket.AF_INET, type= socket.SOCK_DGRAM )
 
 while True:
     #take input
-    new_payload = input("insert new payload > ")
+    payload = input("insert new payload > ")
     #send
     client_sock.sendto( payload.encode('utf-8'),( SERVER_IP , SERVER_PORT) )
     #recieve
