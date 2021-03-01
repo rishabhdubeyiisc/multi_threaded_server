@@ -13,6 +13,6 @@ except :
 while True:
     # buffersize
     data_recvd , addr_of_client = server_sock.recvfrom(BUFFER_SIZE)
-    print (data_recvd.decode('utf-8'))
+    print ( str(addr_of_client) ,data_recvd.decode('utf-8'))
     message_to_send = ("UDP server here").encode('utf-8')
     server_sock.sendto(message_to_send,addr_of_client)
