@@ -1,10 +1,10 @@
 #! /usr/bin/env python3
 import socket
-import threading
+import _thread import *
 
-server_sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+server_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-IP_SERVER_IS_BINDING = '127.0.0.1'
+IP_SERVER_IS_BINDING = '10.64.37.35'
 PORT_OPENING = 12345
 BUFFER_SIZE = 1024
 thread_count = 0
@@ -14,19 +14,26 @@ try:
 except socket.error as bind_Err:
     print(str(bind_Err))
 
-#server_sock.listen(100) THIS IS DONE IN TCP
+print("waiting for connection")
+server_sock.listen(5)
+
 def client_thread(connection):
-    message_to_send = "UDP multi thread here"
+    message_to_send = "TCP multi thread here"
     connection.send(message_to_send.encode('utf-8'))
     while True:
-        data_recvd , addr_of_client = connection.recvfrom(BUFFER_SIZE)
-        if not data_recvd: 
+        data_recvd = connection.recv(BUFFER_SIZE)
+        reply = "Hello multi here" + str( data_recvd.decode('utf-8') )
+        if not data_recvd : 
             break
         print(data_recvd.decode('utf-8'))
-        message_to_send = ("UDP server here").encode('utf-8')
-        connection.sendto(message_to_send,addr_of_client)
+        connection.sendall(reply)
     connection.close()
 
 while True:
-    #client , address = server_sock.accept()
+    client_obj , client_addr_tuple = server_sock.accept()
+    print("connected to : " + str(client_addr_tuple) )
+
+    start_new_thread(client_thread , (client_obj,) )
+    thread_count += 1
+    print("Thread Number : " , thread_count)
     
