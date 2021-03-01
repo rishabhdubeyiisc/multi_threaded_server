@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 import socket
-import _thread import *
+from _thread import *
 
 server_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
@@ -14,7 +14,7 @@ try:
 except socket.error as bind_Err:
     print(str(bind_Err))
 
-print("waiting for connection")
+print("waiting for connection on")
 server_sock.listen(5)
 
 def client_thread(connection):
@@ -26,7 +26,7 @@ def client_thread(connection):
         if not data_recvd : 
             break
         print(data_recvd.decode('utf-8'))
-        connection.sendall(reply)
+        connection.sendall( bytes(reply.encode('utf-8')) )
     connection.close()
 
 while True:
