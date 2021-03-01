@@ -7,10 +7,9 @@ message_to_send = "Hello from client"
 
 SERVER_IP = '10.64.37.35'
 SERVER_PORT = 12345
-TUPLE_FOR_SERVER = ( SERVER_IP , SERVER_PORT)
 BUFFER_SIZE = 1024
 
-client_sock.sendto(message_to_send.encode('utf-8'),TUPLE_FOR_SERVER)
+client_sock.sendto(message_to_send.encode('utf-8'),( SERVER_IP , SERVER_PORT) )
 
 data_recvd , server_addr = client_sock.recvfrom(BUFFER_SIZE)
 
