@@ -67,6 +67,7 @@ if __name__ == '__main__':
         0b000101001  # Merry Christmas!
     )
 
+    packed = pak.build()
     s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
 
     s.sendto(pak.build(), (dst, 0))
