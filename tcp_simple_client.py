@@ -1,14 +1,12 @@
 #! /usr/bin/env python3
 import socket
 
-client_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-
-message_to_send = "Hello from client"
-
-SERVER_IP = '10.64.37.30'
+SERVER_IP = '10.64.37.35'
 SERVER_PORT = 12345
 BUFFER_SIZE = 1024
-TRIALS_TO_DO = 10 
+TRIALS_TO_DO = 10
+
+client_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
 def connect_mechanics(ip = '127.0.0.1' , port = 12345 , trials_to_do = 10 ):
     trials = 0
@@ -24,11 +22,12 @@ def connect_mechanics(ip = '127.0.0.1' , port = 12345 , trials_to_do = 10 ):
 
 SERVER_PORT = connect_mechanics(ip=SERVER_IP , port = SERVER_PORT ,trials_to_do= TRIALS_TO_DO)
 print("Connected to : ", str(SERVER_IP) , str(SERVER_PORT) )
-payload = "Hey server"
+
+payload = "Hey server 16871289713213289 1.01299132 1.01273771 0x178132132"
 
 try :
     while True:
-        client_sock.send(payload.encode('utf-8'))
+        client_sock.send( payload.encode('utf-8') )
         data_recvd = client_sock.recvfrom(BUFFER_SIZE)
         print ("Server says : " + str (data_recvd[0].decode('utf-8') ))
         want_to_send_more = input("do you want to send more data Y/n ") 
@@ -38,4 +37,5 @@ try :
             break 
 except KeyboardInterrupt :
     print("\nexited by user")
+
 client_sock.close()

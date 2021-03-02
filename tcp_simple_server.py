@@ -1,13 +1,13 @@
 #! /usr/bin/env python3
 import socket
-import random
-server_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-IP_SERVER_IS_BINDING = '10.64.37.30'
+IP_SERVER_IS_BINDING = '10.64.37.35'
 PORT_OPENING = 12345
 BUFFER_SIZE = 1024
 CONNECTION_TO_WAIT_WHILE_BUSY = 5
 TRIALS_TO_DO = 10
+
+server_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
 def binding_mechanics(server_sock , base_port = 12345 , ip = '127.0.0.1' , trial_count_max = TRIALS_TO_DO ):
     trial = 0
@@ -39,7 +39,7 @@ while True:
             print("received from client : " + str(data_recvd.decode('utf-8')) )
             try :
                 message_to_send = "hey client"
-                client_socket_object.send(bytes(message_to_send.encode('utf-8')))
+                client_socket_object.send( bytes (message_to_send.encode('utf-8')) )
             except KeyboardInterrupt :
                 print("\nexited by user")
         client_socket_object.close()
