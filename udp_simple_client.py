@@ -1,6 +1,9 @@
 #! /usr/bin/env python3
 import socket
-import datetime 
+import datetime
+import pytz
+from time import time
+
 from udp_packet_crafter import Common_frame
 
 SERVER_IP = '127.0.0.1'
@@ -13,13 +16,22 @@ time_stamp = datetime.datetime.now(pytz.utc)
 DATA_FRAME_VALUE = 0xAA01
 MAX_FRAME_SIZE = 0xFFFF
 IDCODE_VALUE = 0x0002
-SOC_VALUE = 
+SOC_VALUE = 0x99
 client_sock = socket.socket( family = socket.AF_INET, type= socket.SOCK_DGRAM )
-crafted_payload = Common_frame(SYNC = int(DATA_FRAME_VALUE) , FRAME_SIZE = int(MAX_FRAME_SIZE), IDCODE = int(0xDEAD) , SOC = int(0xABCDEF12) , FRACSEC= int(0x12345678) , CHK = int(0xEABD) )
-payload = crafted_payload.build()
+
 while True:
     #take input
     #payload = input("insert new payload > ")
+    current_time = time()  # Get current timestamp
+
+    crafted_payload = Common_frame( SYNC        = int(DATA_FRAME_VALUE) , 
+                                    FRAME_SIZE  = int(MAX_FRAME_SIZE), 
+                                    IDCODE      = int(0xDEAD) , 
+                                    SOC         = int(current_time) , 
+                                    FRACSEC     = int( (((repr(( current_time % 1))).split("."))[1])[0:7] ) , 
+                                    CHK         = int(0xEABD) )
+    
+    payload = crafted_payload.build()
     #send
     client_sock.sendto( payload ,( SERVER_IP , SERVER_PORT) )
     #recieve
