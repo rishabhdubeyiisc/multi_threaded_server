@@ -1,72 +1,42 @@
 import array
 import socket
 import struct
-
-
-def chksum(packet: bytes) -> int:
-    if len(packet) % 2 != 0:
-        packet += b'\0'
-
-    res = sum(array.array("H", packet))
-    res = (res >> 16) + (res & 0xffff)
-    res += res >> 16
-
-    return (~res) & 0xffff
-
-
-class TCPPacket:
+import ctypes
+'''
+SYNC        = 2 Bytes H
+FRAME_SIZE  = 2 Bytes H
+IDCODE      = 2 Bytes H
+SOC         = 4 Bytes I
+FRACSEC     = 4 Bytes I
+DATA1       = 2 Bytes H
+DATA2       = 2 Bytes H
+CHK         = 2 Bytes H
+'''
+class Common_frame:
     def __init__(self,
-                 src_host:  str,
-                 src_port:  int,
-                 dst_host:  str,
-                 dst_port:  int,
-                 flags:     int = 0):
-        self.src_host = src_host
-        self.src_port = src_port
-        self.dst_host = dst_host
-        self.dst_port = dst_port
-        self.flags = flags
+                 SYNC       :  int,
+                 FRAME_SIZE :  int,
+                 IDCODE     :  int,
+                 SOC        :  int,
+                 FRACSEC    :  int, 
+                 CHK        :  int                  
+                 ):
+
+        self.SYNC       = SYNC
+        self.FRAME_SIZE = FRAME_SIZE
+        self.IDCODE     = IDCODE
+        self.SOC        = SOC
+        self.FRACSEC    = FRACSEC
+        self.CHK        = CHK
 
     def build(self) -> bytes:
         packet = struct.pack(
-            '!HHIIBBHHH',
-            self.src_port,  # Source Port
-            self.dst_port,  # Destination Port
-            0,              # Sequence Number
-            0,              # Acknoledgement Number
-            5 << 4,         # Data Offset
-            self.flags,     # Flags
-            8192,           # Window
-            0,              # Checksum (initial value)
-            0               # Urgent pointer
+            '!HHHIIH',
+            self.SYNC,    
+            self.FRAME_SIZE,  
+            self.IDCODE ,
+            self.SOC ,
+            self.FRACSEC  ,
+            self.CHK  
         )
-
-        pseudo_hdr = struct.pack(
-            '!4s4sHH',
-            socket.inet_aton(self.src_host),    # Source Address
-            socket.inet_aton(self.dst_host),    # Destination Address
-            socket.IPPROTO_TCP,                 # PTCL
-            len(packet)                         # TCP Length
-        )
-
-        checksum = chksum(pseudo_hdr + packet)
-
-        packet = packet[:16] + struct.pack('H', checksum) + packet[18:]
-
         return packet
-
-
-if __name__ == '__main__':
-    dst = '192.168.1.1'
-
-    pak = TCPPacket(
-        '192.168.1.42',
-        20,
-        dst,
-        666,
-        0b000101001  # Merry Christmas!
-    )
-
-    s = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_TCP)
-
-    s.sendto(pak.build(), (dst, 0))

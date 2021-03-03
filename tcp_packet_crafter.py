@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import array
 import socket
 import struct
@@ -61,9 +62,9 @@ if __name__ == '__main__':
 
     pak = TCPPacket(
         '192.168.1.42',
-        20,
+        12345,
         dst,
-        666,
+        12345,
         0b000101001  # Merry Christmas!
     )
 
