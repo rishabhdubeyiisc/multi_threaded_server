@@ -20,14 +20,14 @@ except :
 while True:
     # buffersize
     data_recvd , addr_of_client = server_sock.recvfrom(BUFFER_SIZE)
-    current_time_server = time()  # Get current timestamp
-    #SOC_server = int(current_time_server)
-    #SOC_client = struct.unpack('!HHHIIH', data_recvd)[3]
+    current_time_server = datetime.datetime.now(pytz.utc)  # Get current timestamp
+    SOC_server = int(current_time_server)
+    SOC_client = struct.unpack('!HHHIIH', data_recvd)[3]
     FRACSEC_server = int( (((repr(( current_time_server % 1))).split("."))[1])[0:7] )
     FRACSEC_client = struct.unpack('!HHHIIH', data_recvd)[4]
-    #SOC_diff = SOC_server - SOC_client
+    SOC_diff = SOC_server - SOC_client
     FRACSEC_diff = FRACSEC_server - FRACSEC_client 
     #print ( str(addr_of_client) , struct.unpack('!HHHIIH', data_recvd) )
-    print("Fracsec diff : " + str(FRACSEC_diff) )
+    print("Fracsec diff : " + str(SOC_diff) + " ==== " +str(FRACSEC_diff) )
     message_to_send = ("UDP server here").encode('utf-8')
     server_sock.sendto(message_to_send,addr_of_client)

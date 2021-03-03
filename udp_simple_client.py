@@ -22,7 +22,7 @@ client_sock = socket.socket( family = socket.AF_INET, type= socket.SOCK_DGRAM )
 while True:
     #take input
     #payload = input("insert new payload > ")
-    current_time = time()  # Get current timestamp
+    current_time = datetime.datetime.now(pytz.utc)  # Get current timestamp
 
     crafted_payload = Common_frame( SYNC        = int(DATA_FRAME_VALUE) , 
                                     FRAME_SIZE  = int(MAX_FRAME_SIZE), 
