@@ -6,7 +6,7 @@ from time import time
 
 from udp_packet_crafter import Common_frame
 
-SERVER_IP = '127.0.0.1'
+SERVER_IP = '10.64.37.35'
 SERVER_PORT = 12345
 BUFFER_SIZE = 1024
 
@@ -29,7 +29,7 @@ while True:
                                     IDCODE      = int(0xDEAD) , 
                                     SOC         = int(current_time) , 
                                     FRACSEC     = int( (((repr(( current_time % 1))).split("."))[1])[0:7] ) , 
-                                    CHK         = int(0xEABD) )
+                                    CHK         = int(0xDEAD) )
     
     payload = crafted_payload.build()
     #send
