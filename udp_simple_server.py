@@ -20,7 +20,7 @@ except :
 while True:
     # buffersize
     data_recvd , addr_of_client = server_sock.recvfrom(BUFFER_SIZE)
-    current_time_server = datetime.datetime.now(pytz.utc)  # Get current timestamp
+    current_time_server = time()  # Get current timestamp
     SOC_server = int(current_time_server)
     SOC_client = struct.unpack('!HHHIIH', data_recvd)[3]
     FRACSEC_server = int( (((repr(( current_time_server % 1))).split("."))[1])[0:7] )
