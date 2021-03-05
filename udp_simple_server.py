@@ -28,6 +28,6 @@ while True:
     SOC_diff = SOC_server - SOC_client
     FRACSEC_diff = FRACSEC_server - FRACSEC_client 
     #print ( str(addr_of_client) , struct.unpack('!HHHIIH', data_recvd) )
-    print("Fracsec diff : " + str(SOC_diff) + " ==== " +str(FRACSEC_diff) )
+    print(" diff : " + str( ( ( SOC_diff + (FRACSEC_diff / 10000000) ) * 10000000 ) ) )
     message_to_send = ("UDP server here").encode('utf-8')
     server_sock.sendto(message_to_send,addr_of_client)

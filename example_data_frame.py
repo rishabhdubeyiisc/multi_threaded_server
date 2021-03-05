@@ -655,8 +655,6 @@ class CommonFrame(metaclass=ABCMeta):
         return convert_method[frame_type](byte_data)
 
 
-
-
 class DataFrame(CommonFrame):
 
     MEASUREMENT_STATUS = { "ok": 0, "error": 1, "test": 2, "verror": 3 }
