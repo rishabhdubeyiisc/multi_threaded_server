@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import socket 
-import debugger_class
+import util_debugger_class
 from time import time
 import struct
 import ctypes
 
-verbose_control_FILE = True
+verbose_control_FILE = False
 use_debugger_FILE = True
 
 class UDP_server:    
@@ -14,8 +14,9 @@ class UDP_server:
                  port = 12345 , 
                  use_debugger = use_debugger_FILE , 
                  verbose_control = verbose_control_FILE , 
-                 get_IPv4_override = False) :
-        self.debugger_nw = debugger_class.debugger_class(create_dir=False ,
+                 get_IPv4_override = False, 
+                 create_dir = True) :
+        self.debugger_nw = util_debugger_class.debugger_class(create_dir=create_dir ,
                                                          use_debugger=use_debugger_FILE, 
                                                          verbose_control = verbose_control_FILE,
                                                          filename = "UDP_server.log")
@@ -29,7 +30,7 @@ class UDP_server:
         self.debugger_nw.log("UDP_server_init IPv4 ", self.IPAddr)
         self.debugger_nw.log("UDP_server_init PORT ", str(self.port))
         self.sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-        self.debugger_nw.log("UDP_server_init SOCK ", str(self.sock))
+        self.debugger_nw.log("UDP_server_init SOCK " , "")
         self.sender_addr = "127.0.0.1"
         try :
             self.debugger_nw.log("UDP_server_init ","sock.bind try")
@@ -57,6 +58,12 @@ class UDP_server:
         self.debugger_nw.log("UDP_server.recv_data","recieved data : " + str(data_recvd) + " from : " + str(self.sender_addr[0]))
         return str(data_recvd)
     
+    def recv_bytes(self):
+        self.debugger_nw.log("UDP_server.recv_data","recieving data")
+        data_recvd , self.sender_addr = self.sock.recvfrom(self.BUFFER_SIZE)        
+        self.debugger_nw.log("UDP_server.recv_data","recieved data : " + str(data_recvd) + " from : " + str(self.sender_addr[0]))
+        return (struct.unpack('!HHHIIH', data_recvd))
+    
     def send_ack (self , string):
         self.debugger_nw.log("UDP_server.send_ack","sending data : " + str(string))
         message=bytes((string).encode("utf-8"))
@@ -66,18 +73,18 @@ class UDP_server:
     def send_msg (self , string , addr_to_send):
         pass
 
-    def time_diff_calc(self):
+    def time_diff_calc(self , data_pack):
         server_current_time = time()  # Get current timestamp
-        server_SOC      = int(current_time_server)
+        server_SOC      = int(server_current_time)
         server_FRACSEC  = int( (((repr(( server_current_time % 1))).split("."))[1])[0:7] )
 
-        client_SOC      = struct.unpack('!HHHIIH', data_recvd)[3]
-        client_FRACSEC  = struct.unpack('!HHHIIH', data_recvd)[4]
+        client_SOC      = data_pack[3]
+        client_FRACSEC  = data_pack[4]
 
-        diff_SOC        = SOC_server - SOC_client
-        diff_FRACSEC    = FRACSEC_server - FRACSEC_client 
+        diff_SOC        = server_SOC - client_SOC
+        diff_FRACSEC    = server_FRACSEC - client_FRACSEC 
         
-        time_diff = ctypes.c_float ( ( SOC_diff + (FRACSEC_diff / 10000000) ) * 10000000 )  
+        time_diff = ( ( diff_SOC + (diff_FRACSEC / 10000000) ) * 10000000 )  
         self.debugger_nw.log("UDP_server.time_diff_calc", "time_diff : " + str(time_diff))
 
-        return time_diff
+        return diff_SOC , diff_FRACSEC

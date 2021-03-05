@@ -2,6 +2,6 @@ ps aux | grep ntp
 
 kill process
 
-sudo ntpdate local_server
+sudo ntpdate 10.16.25.9
 
 timedatectl

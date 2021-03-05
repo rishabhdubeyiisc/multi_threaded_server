@@ -60,7 +60,7 @@ class debugger_class:
         current_time = datetime.datetime.now()
         self.cmd = " __ " + str(function) + " __  : " +string 
         self.verbose(self.cmd)
-        self.cmd = self.cmd + str(current_time)
+        self.cmd = self.cmd + " " +str(current_time)
         self.cmd +=  " >> ./logs/"+self.filename
         self.cmd = "echo " + self.cmd
         self.cmd = self.remove_slash_n(self.cmd)

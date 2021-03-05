@@ -35,7 +35,7 @@ while True:
     #send
     client_sock.sendto( payload ,( SERVER_IP , SERVER_PORT) )
     #recieve
-    data_recvd , server_addr = client_sock.recvfrom(BUFFER_SIZE)
-    print ("Server says" + str (data_recvd.decode('utf-8')))
+    #data_recvd , server_addr = client_sock.recvfrom(BUFFER_SIZE)
+    #print ("Server says" + str (data_recvd.decode('utf-8')))
 
 client_sock.close()
