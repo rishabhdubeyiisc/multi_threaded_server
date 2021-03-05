@@ -1,0 +1,7 @@
+ps aux | grep ntp 
+
+kill process
+
+sudo ntpdate local_server
+
+timedatectl
