@@ -1,0 +1,17 @@
+https://www.cyberciti.biz/tips/linux-iptables-4-block-all-incoming-traffic-but-allow-ssh.html
+https://www.tecmint.com/linux-iptables-firewall-rules-examples-commands/
+https://docs.python.org/3.8/library/socket.html
+https://danielmiessler.com/study/manually-set-ip-linux/
+https://medium.com/@NickKaramoff/tcp-packets-from-scratch-in-python-3a63f0cd59fe
+https://docs.python.org/3/library/struct.html
+https://gist.github.com/NickKaramoff/b06520e3cb458ac7264cab1c51fa33d6
+https://pymotw.com/2/socket/udp.html
+https://www.reddit.com/r/Python/comments/6wff1q/help_with_getting_the_payload_of_a_udp_packet/
+https://docs.twistedmatrix.com/en/twisted-17.9.0/core/howto/udp.html
+https://pypi.org/project/synchrophasor/
+https://www.kite.com/python/answers/how-to-convert-an-int-to-bytes-in-python
+https://pypi.org/project/rawutil/
+https://knowm.org/how-to-synchronize-time-across-a-linux-cluster/
+http://linux-hacking-guide.blogspot.com/2015/05/configure-ntp-using-chrony-for-isolated.html
+https://techlibrary.hpe.com/docs/otlink-wo/How-to-Configure-a-Local-NTP-Server.html
+https://www.thegeekstuff.com/2014/06/linux-ntp-server-client/
