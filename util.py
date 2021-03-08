@@ -4,6 +4,32 @@ import sys
 import inspect
 import datetime
 
+def time_sync() -> float:
+    '''
+    return offset after syncing with server lagging then will return a value so that after adding in FRACSEC we are syncyed with server
+    '''
+    sync_status = run_cmd("ntpdate ntp.iisc.ac.in")
+    offset = float(sync_status.split()[-2])
+
+    if (offset < 0):
+        print("unit is lagging in 0.1 microsec unit by : ", offset)
+        return (-(offset))
+    elif (offset > 0):
+        print("unit is leading in 0.1 microsec unit by : ", offset)
+        return (-(offset))
+    else :
+        print("exact sync is imposible")
+        exit(-888)
+
+def run_cmd (string):
+    try: 
+        stream = os.popen(string)
+        return (stream.read())
+    except OSError as error:
+        print(error)
+        return error
+
+
 class debugger_class:
     '''Creates a log folder in present dir, Takes 1st argument as verbose = True/ False , 2nd filename'''
     verbose_control = False
