@@ -8,7 +8,7 @@ from udp_payloads import common_frame_build
 
 #from udp_packet_crafter import Common_frame
 
-SERVER_IP = '127.0.0.1'
+SERVER_IP = '10.64.37.35'
 SERVER_PORT = 12345
 BUFFER_SIZE = 1024
 
