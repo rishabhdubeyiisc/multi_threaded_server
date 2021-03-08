@@ -40,7 +40,7 @@ while True:
     #take input
     #payload = input("insert new payload > ")
     current_time = time()  # Get current timestamp
-
+    '''
     crafted_payload = Common_frame( SYNC        = int(DATA_FRAME_VALUE) , 
                                     FRAME_SIZE  = int(MAX_FRAME_SIZE), 
                                     IDCODE      = int(0xDEAD) , 
@@ -49,6 +49,10 @@ while True:
                                     CHK         = int(0xDEAD) )
     
     payload = crafted_payload.build()
+    '''
+    SOC_VALUE = int(current_time)
+    FRACSEC_VALUE = int( (((repr(( current_time % 1))).split("."))[1])[0:7] )
+    payload = cf_build(DATA_FRAME_VALUE , MAX_FRAME_SIZE , (0xDEAD) , SOC_VALUE , FRACSEC_VALUE , CHK= int(0xDEAD) )
     #send
     client_sock.sendto( payload ,( SERVER_IP , SERVER_PORT) )
     #recieve
