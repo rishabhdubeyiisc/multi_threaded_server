@@ -29,7 +29,7 @@ while True:
     
     SOC_VALUE = int(current_time)
     #FRACSEC_VALUE = int( (((repr(( current_time % 1))).split("."))[1])[0:7] )
-    FRACSEC_VALUE = int ((current_time - SOC_VALUE) * (10**7)) 
+    FRACSEC_VALUE = int( (((repr(( current_time % 1))).split("."))[1])[0:7] ) 
     payload = common_frame_build (DATA_FRAME_VALUE , MAX_FRAME_SIZE , (0xDEAD) , SOC_VALUE , FRACSEC_VALUE , CHK= int(0xDEAD) )
     
     #send
