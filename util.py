@@ -9,7 +9,7 @@ def time_sync() -> float:
     '''
     return offset after syncing with server lagging then will return a value so that after adding in FRACSEC we are syncyed with server
     '''
-    sync_status = run_cmd("ntpdate ntp.iisc.ac.in")
+    sync_status = run_cmd("ntpdate 10.16.25.9")
     offset = float(sync_status.split()[-2])
 
     if (offset < 0):
@@ -20,7 +20,7 @@ def time_sync() -> float:
         return (-(offset))
     else :
         print("exact sync is imposible")
-        exit(-888)
+        return 0
 
 def sync_deamon(offset):
     while(True):
