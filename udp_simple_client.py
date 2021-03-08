@@ -13,11 +13,28 @@ BUFFER_SIZE = 1024
 time_stamp = datetime.datetime.now(pytz.utc)
 
 #protocol specific values
-DATA_FRAME_VALUE = 0xAA01
-MAX_FRAME_SIZE = 0xFFFF
-IDCODE_VALUE = 0x0002
-SOC_VALUE = 0x99
+DATA_FRAME_VALUE = int(0xAA01)
+MAX_FRAME_SIZE = int(0xFFFF)
+IDCODE_VALUE = int(0x0002)
+SOC_VALUE = int(0x99)
 client_sock = socket.socket( family = socket.AF_INET, type= socket.SOCK_DGRAM )
+
+def cf_build(SYNC       : int , 
+             FRAME_SIZE : int , 
+             IDCODE     : int , 
+             SOC        : int , 
+             FRACSEC    : int , 
+             CHK        : int ) -> bytes:
+    packet = struct.pack(
+        '!HHHIIH',
+        SYNC,    
+        FRAME_SIZE,  
+        IDCODE ,
+        SOC ,
+        FRACSEC  ,
+        CHK  
+    )
+    return packet
 
 while True:
     #take input
@@ -35,7 +52,7 @@ while True:
     #send
     client_sock.sendto( payload ,( SERVER_IP , SERVER_PORT) )
     #recieve
-    #data_recvd , server_addr = client_sock.recvfrom(BUFFER_SIZE)
-    #print ("Server says" + str (data_recvd.decode('utf-8')))
+    data_recvd , server_addr = client_sock.recvfrom(BUFFER_SIZE)
+    print ("Server says" + str (data_recvd.decode('utf-8')))
 
 client_sock.close()
