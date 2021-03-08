@@ -4,6 +4,7 @@ import socket
 import datetime
 import pytz
 from time import time
+from time import sleep as time_sleep
 import struct
 from udp_payloads import common_frame_build
 
@@ -14,7 +15,7 @@ OFFSET = time_sync()
 
 #from udp_packet_crafter import Common_frame
 
-SERVER_IP = '127.0.0.1'
+SERVER_IP = '10.64.37.35'
 SERVER_PORT = 12346
 BUFFER_SIZE = 1024
 
@@ -42,7 +43,7 @@ sync_deamon_TH = threading.Thread(target=sync_deamon)
 #sync_deamon_TH.setDaemon(True)
 sync_deamon_TH.start()
 
-printer = threading.Thread(target=print_Func)
+printer = threading.Thread(target=print_deamon)
 #printer.setDaemon(True)
 #printer.start()
 

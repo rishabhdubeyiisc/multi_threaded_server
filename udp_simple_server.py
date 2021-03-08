@@ -15,7 +15,7 @@ OFFSET = time_sync()
 
 server_sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
-IP_SERVER_IS_BINDING = '127.0.0.1'
+IP_SERVER_IS_BINDING = '10.64.37.35'
 PORT_OPENING = 12346
 BUFFER_SIZE = 1024
 try:
@@ -39,7 +39,7 @@ sync_deamon_TH = threading.Thread(target=sync_deamon)
 #sync_deamon_TH.setDaemon(True)
 sync_deamon_TH.start()
 
-printer = threading.Thread(target=print_Func)
+printer = threading.Thread(target=print_deamon)
 #printer.setDaemon(True)
 #printer.start()
 
