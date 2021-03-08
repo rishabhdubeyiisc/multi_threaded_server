@@ -3,6 +3,7 @@ import os
 import sys
 import inspect
 import datetime
+import time
 
 def time_sync() -> float:
     '''
@@ -20,6 +21,11 @@ def time_sync() -> float:
     else :
         print("exact sync is imposible")
         exit(-888)
+
+def sync_deamon(offset):
+    while(True):
+        offset = time_sync()
+        time.sleep(1)
 
 def run_cmd (string):
     try: 

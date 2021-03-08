@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+import threading
 import socket
 import datetime
 import pytz
@@ -7,12 +8,13 @@ import struct
 from udp_payloads import common_frame_build
 
 from util import time_sync
+from util import sync_deamon
 #reolution is 0.1microsecond
 OFFSET = time_sync()
 
 #from udp_packet_crafter import Common_frame
 
-SERVER_IP = '10.64.37.35'
+SERVER_IP = '127.0.0.1'
 SERVER_PORT = 12346
 BUFFER_SIZE = 1024
 
@@ -23,6 +25,26 @@ DATA_FRAME_VALUE    = int(0xAA01)
 MAX_FRAME_SIZE      = int(0xFFFF)
 IDCODE_VALUE        = int(0x0002)
 SOC_VALUE           = int(0x99887766)
+
+def sync_deamon():
+    global OFFSET 
+    while(True):
+        OFFSET = time_sync()
+        time_sleep(1)
+
+def print_deamon():
+    global OFFSET
+    while True :
+        print("value you want to observer : " + str(OFFSET) )
+        time_sleep(2)
+
+sync_deamon_TH = threading.Thread(target=sync_deamon)
+#sync_deamon_TH.setDaemon(True)
+sync_deamon_TH.start()
+
+printer = threading.Thread(target=print_Func)
+#printer.setDaemon(True)
+#printer.start()
 
 client_sock = socket.socket( family = socket.AF_INET, type= socket.SOCK_DGRAM )
 sqn_num_sent = 0 

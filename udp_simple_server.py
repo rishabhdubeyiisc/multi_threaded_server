@@ -3,23 +3,45 @@ import socket
 import datetime
 import pytz
 from time import time
+from time import sleep as time_sleep
 import array
 import socket
 import struct
 import ctypes
 from util import time_sync
+import threading
 #reolution is 0.1microsecond
 OFFSET = time_sync()
 
 server_sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
-IP_SERVER_IS_BINDING = '10.64.37.35'
+IP_SERVER_IS_BINDING = '127.0.0.1'
 PORT_OPENING = 12346
 BUFFER_SIZE = 1024
 try:
     server_sock.bind((IP_SERVER_IS_BINDING,PORT_OPENING))
 except :
     print("bind error")
+
+def sync_deamon():
+    global OFFSET 
+    while(True):
+        OFFSET = time_sync()
+        time_sleep(1)
+
+def print_deamon():
+    global OFFSET
+    while True :
+        print("value you want to observer : " + str(OFFSET) )
+        time_sleep(2)
+
+sync_deamon_TH = threading.Thread(target=sync_deamon)
+#sync_deamon_TH.setDaemon(True)
+sync_deamon_TH.start()
+
+printer = threading.Thread(target=print_Func)
+#printer.setDaemon(True)
+#printer.start()
 
 sqn_num = 0 
 while True:
