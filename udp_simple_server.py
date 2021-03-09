@@ -9,6 +9,7 @@ import socket
 import struct
 import ctypes
 from util import time_sync
+from udp_payloads import get_frasec
 import threading
 #reolution is 0.1microsecond
 SYNC_SPEED = 0.01 # in seconds
@@ -44,7 +45,16 @@ printer = threading.Thread(target=print_deamon , args=(SYNC_SPEED,))
 #printer.setDaemon(True)
 #printer.start()
 
-sqn_num = int(0) 
+sqn_num = int(0)
+
+
+#8 bit time quality msg
+TIME_FLAGS = 0b0010
+TIME_QUALITY = 0x5
+lis = [TIME_FLAGS, TIME_QUALITY ]
+TIME_MSG = bytes(lis) 
+#TIME_MSG = 0b00100101
+
 while True:
     # buffersize
     data_recvd , addr_of_client = server_sock.recvfrom(BUFFER_SIZE)
@@ -54,8 +64,8 @@ while True:
     SOC_server = int(current_time_server)
     SOC_client = struct.unpack('!HHHIIH', data_recvd)[3]
     
-    FRACSEC_server = ( int( (((repr(( current_time_server % 1))).split("."))[1])) ) 
-    FRACSEC_client = struct.unpack('!HHHIIH', data_recvd)[4]
+    FRACSEC_server = ( int( (((repr(( current_time_server % 1))).split("."))[1]))[0:6] )
+    FRACSEC_client = get_frasec(struct.unpack('!HHHIIH', data_recvd)[4]) 
     
     SOC_diff        = SOC_server - SOC_client
     FRACSEC_diff    = FRACSEC_server - FRACSEC_client 

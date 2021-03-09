@@ -7,6 +7,7 @@ from time import time
 from time import sleep as time_sleep
 import struct
 from udp_payloads import common_frame_build
+from udp_payloads import set_frasec
 
 from util import time_sync
 from util import sync_deamon
@@ -49,15 +50,20 @@ printer = threading.Thread(target=print_deamon ,args=(SYNC_SPEED,))
 #printer.start()
 
 client_sock = socket.socket( family = socket.AF_INET, type= socket.SOCK_DGRAM )
-sqn_num_sent = 0 
+sqn_num_sent = 0
+
+TIME_FLAGS = 0b0010
+TIME_QUALITY = 0x5
+
 while True:
     #take input
     #payload = input("insert new payload > ")
     current_time = time() + OFFSET # Get current timestamp
     
     SOC_VALUE = int(current_time)
-    #FRACSEC_VALUE = int( (((repr(( current_time % 1))).split("."))[1])[0:7] )
-    FRACSEC_VALUE = ( int( (((repr(( current_time % 1))).split("."))[1]) ) ) 
+
+    FRACSEC_VALUE = set_frasec( fr_seconds = int( (((repr((current_time % 1))).split("."))[1])[0:6]) )
+
     payload = common_frame_build (DATA_FRAME_VALUE , MAX_FRAME_SIZE , (0xDEAD) , SOC_VALUE , FRACSEC_VALUE , CHK= int(0xDEAD) )
     
     #send

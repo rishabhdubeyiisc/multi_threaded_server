@@ -76,7 +76,7 @@ class UDP_server:
     def time_diff_calc(self , data_pack):
         server_current_time = time()  # Get current timestamp
         server_SOC      = int(server_current_time)
-        server_FRACSEC  = int( (((repr(( server_current_time % 1))).split("."))[1])[0:7] )
+        server_FRACSEC  = int( (((repr(( server_current_time % 1))).split("."))[1])[0:6] )
 
         client_SOC      = data_pack[3]
         client_FRACSEC  = data_pack[4]
