@@ -11,6 +11,7 @@ import ctypes
 from util import time_sync
 import threading
 #reolution is 0.1microsecond
+SYNC_SPEED = 0.01 # in seconds
 OFFSET = time_sync()
 
 server_sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -23,27 +24,27 @@ try:
 except :
     print("bind error")
 
-def sync_deamon():
+def sync_deamon(SYNC_SPEED):
     global OFFSET 
     while(True):
         OFFSET = time_sync()
-        time_sleep(1)
+        time_sleep(SYNC_SPEED)
 
-def print_deamon():
+def print_deamon(SYNC_SPEED):
     global OFFSET
     while True :
         print("value you want to observer : " + str(OFFSET) )
-        time_sleep(2)
+        time_sleep(SYNC_SPEED)
 
-sync_deamon_TH = threading.Thread(target=sync_deamon)
-#sync_deamon_TH.setDaemon(True)
+sync_deamon_TH = threading.Thread(target=sync_deamon , args=(SYNC_SPEED,))
+sync_deamon_TH.setDaemon(True)
 sync_deamon_TH.start()
 
-printer = threading.Thread(target=print_deamon)
+printer = threading.Thread(target=print_deamon , args=(SYNC_SPEED,))
 #printer.setDaemon(True)
 #printer.start()
 
-sqn_num = 0 
+sqn_num = int(0) 
 while True:
     # buffersize
     data_recvd , addr_of_client = server_sock.recvfrom(BUFFER_SIZE)

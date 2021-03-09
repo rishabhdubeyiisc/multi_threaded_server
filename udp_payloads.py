@@ -35,13 +35,13 @@ def common_frame_build(SYNC       : int ,
     if not ( 0xAA00 <= SYNC         <= 0xAA6F ):
         ERR_SYNC(SYNC)
         exit(-1)
-    if not ( 1      <= FRAME_SIZE   <= MAX_16_BIT ):
+    if not ( 0      <= FRAME_SIZE   <= MAX_16_BIT ):
         ERR_FRAME_SIZE(FRAME_SIZE)
         exit(-1)
-    if not ( 1      <= SOC   <= MAX_32_BIT ):
+    if not ( 0      <= SOC   <= MAX_32_BIT ):
         ERR_SOC(SOC)
         exit(-1)
-    if not ( 1      <= FRACSEC   <= MAX_24_BIT ):
+    if not ( 0      <= FRACSEC   <= MAX_24_BIT ):
         ERR_FRACSEC(FRACSEC)
         exit(-1)
 

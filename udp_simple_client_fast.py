@@ -12,6 +12,7 @@ from util import time_sync
 from util import sync_deamon
 #reolution is 0.1microsecond
 OFFSET = time_sync()
+SYNC_SPEED = 0.01 # in seconds
 
 #from udp_packet_crafter import Common_frame
 
@@ -19,7 +20,7 @@ SERVER_IP = '10.64.37.35'
 SERVER_PORT = 12346
 BUFFER_SIZE = 1024
 
-time_stamp = datetime.datetime.now(pytz.utc)
+#time_stamp = datetime.datetime.now(pytz.utc)
 
 #protocol specific values
 DATA_FRAME_VALUE    = int(0xAA01)
@@ -27,23 +28,23 @@ MAX_FRAME_SIZE      = int(0xFFFF)
 IDCODE_VALUE        = int(0x0002)
 SOC_VALUE           = int(0x99887766)
 
-def sync_deamon():
+def sync_deamon(SYNC_SPEED):
     global OFFSET 
     while(True):
         OFFSET = time_sync()
-        time_sleep(1)
+        time_sleep(SYNC_SPEED)
 
-def print_deamon():
+def print_deamon(SYNC_SPEED):
     global OFFSET
     while True :
         print("value you want to observer : " + str(OFFSET) )
-        time_sleep(2)
+        time_sleep(SYNC_SPEED)
 
-sync_deamon_TH = threading.Thread(target=sync_deamon)
-#sync_deamon_TH.setDaemon(True)
+sync_deamon_TH = threading.Thread(target=sync_deamon , args=(SYNC_SPEED,))
+sync_deamon_TH.setDaemon(True)
 sync_deamon_TH.start()
 
-printer = threading.Thread(target=print_deamon)
+printer = threading.Thread(target=print_deamon ,args=(SYNC_SPEED,))
 #printer.setDaemon(True)
 #printer.start()
 

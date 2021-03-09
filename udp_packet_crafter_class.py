@@ -22,6 +22,7 @@ class Common_frame:
                  CHK        :  int                  
                  ):
 
+
         self.SYNC       = SYNC
         self.FRAME_SIZE = FRAME_SIZE
         self.IDCODE     = IDCODE
@@ -40,3 +41,6 @@ class Common_frame:
             self.CHK  
         )
         return packet
+
+class data_frame(Common_frame):
+    pass
