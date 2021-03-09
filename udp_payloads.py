@@ -43,7 +43,7 @@ def common_frame_build(SYNC       : int ,
         exit(-1)
     if not ( 0      <= FRACSEC   <= MAX_24_BIT ):
         ERR_FRACSEC(FRACSEC)
-        exit(-1)
+        #exit(-1)
 
     packet = struct.pack(
         '!HHHIIH',

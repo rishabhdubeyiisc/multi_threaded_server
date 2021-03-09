@@ -54,7 +54,7 @@ while True:
     SOC_server = int(current_time_server)
     SOC_client = struct.unpack('!HHHIIH', data_recvd)[3]
     
-    FRACSEC_server = ( int( (((repr(( current_time_server % 1))).split("."))[1])[0:7] ) ) 
+    FRACSEC_server = ( int( (((repr(( current_time_server % 1))).split("."))[1])) ) 
     FRACSEC_client = struct.unpack('!HHHIIH', data_recvd)[4]
     
     SOC_diff        = SOC_server - SOC_client
