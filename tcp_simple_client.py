@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 import socket
 
-SERVER_IP = '10.64.37.35'
+SERVER_IP = '127.0.0.1'
 SERVER_PORT = 12345
 BUFFER_SIZE = 1024
 TRIALS_TO_DO = 10

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import socket 
-import util_debugger_class
+import util
 from time import time
 import struct
 import ctypes
@@ -16,7 +16,7 @@ class UDP_server:
                  verbose_control = verbose_control_FILE , 
                  get_IPv4_override = False, 
                  create_dir = True) :
-        self.debugger_nw = util_debugger_class.debugger_class(create_dir=create_dir ,
+        self.debugger_nw = util.debugger_class(create_dir=create_dir ,
                                                          use_debugger=use_debugger_FILE, 
                                                          verbose_control = verbose_control_FILE,
                                                          filename = "UDP_server.log")
@@ -84,7 +84,16 @@ class UDP_server:
         diff_SOC        = server_SOC - client_SOC
         diff_FRACSEC    = server_FRACSEC - client_FRACSEC 
         
-        time_diff = ( ( diff_SOC + (diff_FRACSEC / 10000000) ) * 10000000 )  
-        self.debugger_nw.log("UDP_server.time_diff_calc", "time_diff : " + str(time_diff))
+        # normalize if diff_FRACSEC exceeds 1 second range
+        if diff_FRACSEC < -1_000_000:
+            diff_FRACSEC += 1_000_000
+            diff_SOC -= 1
+        elif diff_FRACSEC > 1_000_000:
+            diff_FRACSEC -= 1_000_000
+            diff_SOC += 1
+
+        # convert entire difference to microseconds for convenience
+        time_diff_us = diff_SOC * 1_000_000 + diff_FRACSEC
+        self.debugger_nw.log("UDP_server.time_diff_calc", "time_diff_us : " + str(time_diff_us))
 
         return diff_SOC , diff_FRACSEC

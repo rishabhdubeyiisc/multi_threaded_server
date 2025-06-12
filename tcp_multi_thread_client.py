@@ -4,7 +4,7 @@ import socket
 
 client_sock = socket.socket()
 
-IP_SERVER_IS_BINDING = '10.64.37.35'
+IP_SERVER_IS_BINDING = '127.0.0.1'
 PORT_OPENING = 12345
 BUFFER_SIZE = 1024
 

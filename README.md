@@ -15,6 +15,12 @@ A comprehensive networking project implementing various types of servers and cli
 - **UDP Server Main** (`udp_server_main.py`) - Main UDP server application with time difference calculations
 - **UDP Clients** - Simple and fast UDP client implementations
 - **UDP Packet Crafting** (`udp_packet_crafter_class.py`) - UDP packet creation utilities
+- **Adaptive UDP Time-Sync Lab** (`udp_server_main.py` + `udp_simple_client.py`)
+  - Computes three correction schemes per packet: RAW, EWMA, Kalman
+  - Uses `IDCODE` field so each client receives **only** its chosen scheme
+  - Live plots (matplotlib) with colored curves & per-scheme histograms
+  - JSON-based feedback (`{"scheme":"ewma","correction_us":…}`)
+- **PID Forecast Scheme** – Adds classical PID controller smoothing; choose with `--mode pid`.
 
 ### Utility Features
 - **Debugging & Logging** (`util.py`) - Comprehensive logging system with file output
@@ -65,9 +71,10 @@ A comprehensive networking project implementing various types of servers and cli
   ```
 
 ### Network Configuration
-1. Update IP addresses in the server files to match your network:
-   - Default server IP: `10.64.37.35`
+1. The project is configured for localhost testing:
+   - Default server IP: `127.0.0.1` (localhost)
    - Default port: `12345`
+   - For network deployment, update IP addresses in server files as needed
 
 2. Configure firewall rules (optional):
    ```bash
@@ -140,7 +147,7 @@ python3 udp_simple_server.py
 ### Server Configuration
 Edit the following variables in server files:
 ```python
-IP_SERVER_IS_BINDING = '10.64.37.35'  # Server bind IP
+IP_SERVER_IS_BINDING = '127.0.0.1'    # Server bind IP (localhost)
 PORT_OPENING = 12345                   # Server port
 BUFFER_SIZE = 1024                     # Buffer size for data transfer
 ```
@@ -148,8 +155,10 @@ BUFFER_SIZE = 1024                     # Buffer size for data transfer
 ### Client Configuration
 Update client connection settings:
 ```python
-SERVER_IP = '10.64.37.35'             # Target server IP
+SERVER_IP = '127.0.0.1'               # Target server IP (localhost)
 SERVER_PORT = 12345                    # Target server port
+# Select scheme at runtime
+python3 udp_simple_client.py --mode raw|ewma|kalman [--count N]
 ```
 
 ## 🧪 Testing
@@ -193,3 +202,28 @@ This project is designed for educational and testing purposes.
 **Researcher:** Rishabh Dubey  
 **Environment:** Linux/WSL2 compatible  
 **Python Version:** 3.x required
+
+## 📊 Live Plotting
+When the server starts choose plot option **1** (live window) or **2** (periodic PNGs).
+
+Color key  RAW = blue  EWMA = green  Kalman = orange.  Histograms are over-laid per scheme so you can see which distribution is tightest around **0 ms**.
+
+## 🏃 Quick Demo (3 clients in parallel)
+
+```bash
+# terminal-1 : start server with plotting
+make udp-server        # choose option 1
+
+# terminal-2 : fire three clients (RAW / EWMA / Kalman)
+make three-clients     # background processes
+```
+
+Each client automatically sends its scheme `IDCODE` (0x0001/2/3). The server replies with the matching correction only.
+
+## 🆕 Makefile shortcuts
+- `make three-clients`  Start EWMA, Kalman, PID clients (50 pkts each).
+- `make four-clients`  Start RAW, EWMA, Kalman, PID clients.
+- `make udp-server`        Start server with RAW shown.
+- `make udp-server -- --hide-raw` or run script manually to hide RAW.
+
+---

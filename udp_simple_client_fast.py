@@ -17,7 +17,7 @@ SYNC_SPEED = 0.01 # in seconds
 
 #from udp_packet_crafter import Common_frame
 
-SERVER_IP = '10.64.37.35'
+SERVER_IP = '127.0.0.1'
 SERVER_PORT = 12346
 BUFFER_SIZE = 1024
 

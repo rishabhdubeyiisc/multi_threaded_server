@@ -1,0 +1,12 @@
+{
+  "packet_count": 199,
+  "buffer_size": 199,
+  "uptime_seconds": 135.6,
+  "timing_stats": {
+    "min_diff_us": -3134813,
+    "max_diff_us": 4824742,
+    "avg_diff_us": 800570.36,
+    "median_diff_us": 373520,
+    "std_dev_us": 1037073.67
+  }
+}
